@@ -15,3 +15,5 @@ https://github.com/jmhIcoding/automatic_protocol_inference/blob/master/reference
 
 优点：
 PMI合并关键字子串是个很好的创新！！
+
+如何评价推断的好坏？ 使用已知协议进行推断。HTTP,FTP,DNS,NetBIOS。重点看 关键词提取的准确率。没有关注召回率或者查全率。
