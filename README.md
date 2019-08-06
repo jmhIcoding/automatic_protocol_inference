@@ -1,6 +1,8 @@
 # automatic_protocol_inference
 自动协议特征推断
 # 基于扩展树的协议格式推断方法
+https://github.com/jmhIcoding/automatic_protocol_inference/blob/master/reference/%E5%9F%BA%E4%BA%8E%E6%89%A9%E5%B1%95%E5%89%8D%E7%BC%80%E6%A0%91%E7%9A%84%E5%8D%8F%E8%AE%AE%E6%A0%BC%E5%BC%8F%E6%8E%A8%E6%96%AD%E6%96%B9%E6%B3%95.pdf 
+
 方法：
 1. 使用N-gram 提取频繁出现的子串单元，本文提出的子串是带位置属性的。
 2. 使用PMI(两个词的联合概率除以两个词的概率乘积)将子串单元进行合并,合并的时候只合并连续的、PMI大于一定阈值的串。
