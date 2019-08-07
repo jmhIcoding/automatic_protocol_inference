@@ -17,3 +17,16 @@ https://github.com/jmhIcoding/automatic_protocol_inference/blob/master/reference
 PMI合并关键字子串是个很好的创新！！
 
 如何评价推断的好坏？ 使用已知协议进行推断。HTTP,FTP,DNS,NetBIOS。重点看 关键词提取的准确率。没有关注召回率或者查全率。
+
+# Automatic protocol field inference for deeper protocol understanding
+
+本文作者提出了一些自动提取协议字段、以及推断协议字段类型的方法。同时考虑了textual的协议和二进制协议。
+使用n-gram来寻找 消息类型字段、消息长度字段、Host ID字段、Session ID字段、Transaction ID字段以及计数器字段。
+文中把 消息长度字段 看作是一个测试线性拟合性的问题。
+<a href="https://www.codecogs.com/eqnedit.php?latex=MSG_{len}&space;=&space;a\times&space;FIELD_{value}&space;&plus;&space;b" target="_blank"><img src="https://latex.codecogs.com/gif.latex?MSG_{len}&space;=&space;a\times&space;FIELD_{value}&space;&plus;&space;b" title="MSG_{len} = a\times FIELD_{value} + b" /></a>
+
+把HostID看作是与源IP 互信息特别强的一种变量。
+
+把Session ID 看作是与源IP/目的IP 互信息特别强的变量。
+
+同时在寻找Accumulator的时候，关注同一个会话中，C2S或S2C的相同字段的差分值。
