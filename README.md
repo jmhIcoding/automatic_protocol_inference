@@ -50,3 +50,35 @@ PMI合并关键字子串是个很好的创新！！
 借鉴随机过程的思想，让模型自己规约出状态序列??
 
 能否建模成序列标注问题？？？ 标注数据从何而来？？
+
+# A TLV Structure Semantic Constraints based Method for Reverse Engineering Protocol Packet Formats
+
+论文TLV结构的基本假设：
+
+• The order of the sequence must be: the T field appears on the head, the L field is next to T, and the V field is at the end.
+
+• L field and V field must satisfy: Value (L) = Length (V) Value (L) means the value of the L field, and Length (V) stands for the
+number of bytes of the V field.
+
+• The number of tag types is under a threshold value.
+
+```
+Algorithm: getTreeStruct
+Input: A group of packets with the same format: P1, P2,… , Pm, Number of T filed ‘s number X.
+Output: Field tree with inferred VTL fields and corresponding referred fields. Describe: We use
+this function to get the tree structure of input parameters.
+Do
+For i = 1..length (P)
+  If (types (P1[0..i], P2 [0..i],…Pm [0..i]) < X)
+    if (isIdProgressiveIncrese (P1[i], P2[i],…Pm [i])
+      continue;
+    else if (i = =1)
+      return P;
+  else
+    [TLV1… TLVm] = DevidePacket (P1..Pm, i)
+    TreeStruct1 = getTreeStruct (V1,V2,..Vm)
+    Treestruct2 = getTreeStruct (P1’, P2’,..Pm’);
+    return constructTree (TreeStruct 1,TreeStruct 2)
+```
+
+论文最大的问题是居然假设整个协议全部是TLV格式的？？？换句话说，它不支持那种TLV与TLV之间有间隔的结构
