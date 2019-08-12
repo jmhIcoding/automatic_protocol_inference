@@ -30,3 +30,55 @@ PMI合并关键字子串是个很好的创新！！
 把Session ID 看作是与源IP/目的IP 互信息特别强的变量。
 
 同时在寻找Accumulator的时候，关注同一个会话中，C2S或S2C的相同字段的差分值。
+
+# 基于最大似然概率的协议关键词长度确定方法
+本文提出使用隐马尔科夫对报文字段序列进行建模的方法。
+在本文的设计中，隐状态对应着某个最长频繁字符串，观察状态对应着报文的具体某个字节的内容。隐状态是带有长度的，模型的主要目的有两个：
+1. 寻找概率最大的状态序列，并将状态序列里面的所有状态作为最终关键词。
+2. 寻找关键词 概率最大的那个长度
+
+训练的时候，基于数据包，使用极大似然估计参数取值
+
+疑问：
+1. 对于有重叠子串的 字符串，如何确定它属于什么状态？？？ 例如 Connection: 和ContentType: 前面的字符一样
+2. 论文数学公式上下标结构混乱
+
+创新方向:
+
+状态的定义，是否可以由模型自己生成？ 只不过 用“状态1”,“状态2” ···这种无语义的标签
+
+借鉴随机过程的思想，让模型自己规约出状态序列??
+
+能否建模成序列标注问题？？？ 标注数据从何而来？？
+
+# A TLV Structure Semantic Constraints based Method for Reverse Engineering Protocol Packet Formats
+
+论文TLV结构的基本假设：
+
+• The order of the sequence must be: the T field appears on the head, the L field is next to T, and the V field is at the end.
+
+• L field and V field must satisfy: Value (L) = Length (V) Value (L) means the value of the L field, and Length (V) stands for the
+number of bytes of the V field.
+
+• The number of tag types is under a threshold value.
+
+```
+Algorithm: getTreeStruct
+Input: A group of packets with the same format: P1, P2,… , Pm, Number of T filed ‘s number X.
+Output: Field tree with inferred VTL fields and corresponding referred fields. Describe: We use
+this function to get the tree structure of input parameters.
+Do
+For i = 1..length (P)
+  If (types (P1[0..i], P2 [0..i],…Pm [0..i]) < X)
+    if (isIdProgressiveIncrese (P1[i], P2[i],…Pm [i])
+      continue;
+    else if (i = =1)
+      return P;
+  else
+    [TLV1… TLVm] = DevidePacket (P1..Pm, i)
+    TreeStruct1 = getTreeStruct (V1,V2,..Vm)
+    Treestruct2 = getTreeStruct (P1’, P2’,..Pm’);
+    return constructTree (TreeStruct 1,TreeStruct 2)
+```
+
+论文最大的问题是居然假设整个协议全部是TLV格式的？？？换句话说，它不支持那种TLV与TLV之间有间隔的结构
